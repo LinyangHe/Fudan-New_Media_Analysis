@@ -1,0 +1,15 @@
+[filepath]
+trainfile = data.txt
+wordidmapfile = wordidmapfile.txt
+thetafile = thetafile.txt
+phifile = phifile.txt
+paramfile = paramfile.txt
+topNfile = topNfile.txt
+tassginfile = tassginfile.txt
+
+[model_args]
+K = 3
+alpha = 5.0
+beta = 0.01
+iter_times = 1000
+top_words_num = 10
