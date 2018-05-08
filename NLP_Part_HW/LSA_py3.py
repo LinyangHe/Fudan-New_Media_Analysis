@@ -1,9 +1,13 @@
-#-*- coding:utf-8 -*-
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
 from numpy import zeros
 from numpy import log
 import numpy
 from scipy.linalg import svd
+import string
 #from math import sum
+
 
 
 titles=[
@@ -28,10 +32,10 @@ class LSA(object):
         self.dcount = 0
 
     def parse(self, doc):
-        words = doc.split();
+        words = doc.split()
         for w in words:
-            # w = w.lower().translate(None, self.ignorechars)
-            w = w.lower().translate(self.ignorechars)
+            w = w.lower().strip(ignorechars)
+            
             if w in self.stopwords:
                 continue
             elif w in self.wdict:
@@ -61,21 +65,28 @@ class LSA(object):
     
     def printA(self):
         print (self.A)
+        return self.A
     def printU(self):
         print (self.U)
+        return self.U
     def printS(self):
         print (self.S)
+        return self.S
     def printV(self):
         print (self.Vt)
+        return self.Vt
+
 
 mylsa = LSA(stopwords, ignorechars)
 for t in titles:
     mylsa.parse(t)
+
 mylsa.build()
-mylsa.printA()
+A = mylsa.printA()
 mylsa.TFIDF()
-#mylsa.printA()
 mylsa.calc()
-mylsa.printU()
-mylsa.printS()
-mylsa.printV()
+U = mylsa.printU()
+S = mylsa.printS()
+V = mylsa.printV()
+w_dict = mylsa.wdict
+d_count = mylsa.dcount

@@ -28,7 +28,7 @@ class LSA(object):
         self.dcount = 0
 
     def parse(self, doc):
-        words = doc.split();
+        words = doc.split()
         for w in words:
             w = w.lower().translate(None, self.ignorechars)
             if w in self.stopwords:
@@ -78,3 +78,4 @@ mylsa.calc()
 mylsa.printU()
 mylsa.printS()
 mylsa.printV()
+print(mylsa.wdict)
