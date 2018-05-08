@@ -72,7 +72,7 @@ for t in titles:
     mylsa.parse(t)
 mylsa.build()
 mylsa.printA()
-#mylsa.TFIDF()
+mylsa.TFIDF()
 #mylsa.printA()
 mylsa.calc()
 mylsa.printU()
