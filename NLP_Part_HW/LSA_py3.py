@@ -5,7 +5,6 @@ from numpy import zeros
 from numpy import log
 import numpy
 from scipy.linalg import svd
-import string
 #from math import sum
 
 titles=[

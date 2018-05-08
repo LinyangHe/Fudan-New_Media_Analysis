@@ -5,11 +5,12 @@ from numpy import zeros
 from numpy import log
 import numpy
 from scipy.linalg import svd
-import string
+import jieba
 #from math import sum
-
-stopwords = ['and','edition','for','in','little','of','the','to']
-ignorechars = ''',:'!'''
+#我们无处安放的青春
+#银河系漫游指南
+stopwords = ['的']
+ignorechars = ''',:'!，'''
 
 class LSA(object):
     def __init__(self, stopwords, ignorechars):
@@ -19,10 +20,10 @@ class LSA(object):
         self.dcount = 0
 
     def parse(self, doc):
-        words = doc.split()
+        words = [i for i in jieba.cut_for_search(doc,HMM=True)]
         for w in words:
-            w = w.lower().strip(ignorechars)
-
+            w = w.lower().strip(ignorechars).strip()
+            if not w: continue
             if w in self.stopwords:
                 continue
             elif w in self.wdict:
@@ -45,7 +46,8 @@ class LSA(object):
         rows, cols = self.A.shape
         for i in range(rows):
             for j in range(cols):
-                self.A[i,j] = (self.A[i,j] / WordsPerDoc[j]) * log(float(cols) / DocsPerWord[i])
+                if self.A[i,j]:
+                    self.A[i,j] = (self.A[i,j] / WordsPerDoc[j]) * log(float(cols) / DocsPerWord[i])
 
     def calc(self):
         self.U, self.S, self.Vt = svd(self.A)
@@ -63,6 +65,12 @@ class LSA(object):
         print (self.Vt)
         return self.Vt
 
+
+titles = []
+with open('Chinese_titles_romance.txt', encoding='utf-8') as title_file:
+    for line in title_file:
+        titles.append(line.strip())
+print(titles)
 
 mylsa = LSA(stopwords, ignorechars)
 for t in titles:
