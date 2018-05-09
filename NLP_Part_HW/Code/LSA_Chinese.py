@@ -9,7 +9,8 @@ import jieba
 #from math import sum
 # 我们无处安放的青春
 # 银河系漫游指南
-stopwords = ['的']
+# 陪安东尼度过漫长岁月
+stopwords = ['的','是']
 ignorechars = ''',:'!，'''
 
 
@@ -20,15 +21,13 @@ class LSA(object):
         self.ignorechars = ignorechars
         self.wdict = {}
         self.dcount = 0
-        self.new_dimen = 0
 
     def parse(self, doc):
         words = [i for i in jieba.cut_for_search(doc, HMM=True)]
         for w in words:
             w = w.lower().strip(ignorechars).strip()
-            if not w:
-                continue
-            if w in self.stopwords:
+            
+            if w in self.stopwords or not w:
                 continue
             elif w in self.wdict:
                 self.wdict[w].append(self.dcount)
@@ -38,8 +37,9 @@ class LSA(object):
 
     def build(self):
         self.keys = [k for k in self.wdict.keys() if len(self.wdict[k]) > 1]
-        self.new_dimen = len(self.keys)
+        print(self.keys)
         self.keys.sort()
+        print(self.keys)
         self.A = zeros([len(self.keys), self.dcount])
         for i, k in enumerate(self.keys):
             for d in self.wdict[k]:
@@ -47,7 +47,7 @@ class LSA(object):
 
     def TFIDF(self):
         WordsPerDoc = self.A.sum(axis=0)
-        DocsPerWord = numpy.asarray(self.A > 0, 'i').sum(axis=1)
+        DocsPerWord = np.asarray(self.A > 0, 'i').sum(axis=1)
         rows, cols = self.A.shape
         for i in range(rows):
             for j in range(cols):
@@ -74,8 +74,8 @@ class LSA(object):
         print(self.Vt)
         return self.Vt
 
-    def get_new_dimen(self):
-        return self.new_dimen
+    def get_keys(self):
+        return self.keys
 
 
 def make_new_matrix(U, S, V, maintain_dimen):
@@ -111,8 +111,7 @@ S = mylsa.getS()
 V = mylsa.getV()
 w_dict = mylsa.wdict
 d_count = mylsa.dcount
+key_words = mylsa.get_keys()
 
-new_dimen = mylsa.get_new_dimen()
 maintain_dimen = 3
-
 A_new = make_new_matrix(U, S, V, maintain_dimen)
