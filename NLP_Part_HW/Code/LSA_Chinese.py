@@ -1,3 +1,4 @@
+
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
@@ -6,12 +7,11 @@ from numpy import log
 import numpy as np
 from scipy.linalg import svd
 import jieba
-#from math import sum
-# 我们无处安放的青春
-# 银河系漫游指南
-# 陪安东尼度过漫长岁月
-stopwords = ['的','是']
-ignorechars = ''',:'!，'''
+
+#停用词，在选择关键词的时候需要剔除
+stopwords = ['的','是','不']
+#标点符号，同样需要删除
+ignorechars = ''',:'!，。：'''
 
 
 class LSA(object):
@@ -23,6 +23,7 @@ class LSA(object):
         self.dcount = 0
 
     def parse(self, doc):
+        # 采用结巴分词
         words = [i for i in jieba.cut_for_search(doc, HMM=True)]
         for w in words:
             w = w.lower().strip(ignorechars).strip()
@@ -37,14 +38,12 @@ class LSA(object):
 
     def build(self):
         self.keys = [k for k in self.wdict.keys() if len(self.wdict[k]) > 1]
-        print(self.keys)
         self.keys.sort()
-        print(self.keys)
         self.A = zeros([len(self.keys), self.dcount])
         for i, k in enumerate(self.keys):
             for d in self.wdict[k]:
                 self.A[i, d] += 1
-
+    #用来计算TFIDF
     def TFIDF(self):
         WordsPerDoc = self.A.sum(axis=0)
         DocsPerWord = np.asarray(self.A > 0, 'i').sum(axis=1)
@@ -59,25 +58,29 @@ class LSA(object):
         self.U, self.S, self.Vt = svd(self.A)
 
     def getA(self):
-        print(self.A)
+        # print(self.A)
         return self.A
 
     def getU(self):
-        print(self.U)
+        # print(self.U)
         return self.U
 
     def getS(self):
-        print(self.S)
+        # print(self.S)
         return self.S
 
     def getV(self):
-        print(self.Vt)
+        # print(self.Vt)
         return self.Vt
 
     def get_keys(self):
         return self.keys
 
+    def get_wdict(self):
+        return self.wdict
 
+#把A矩阵经过SVD分解得到的三个矩阵，保留前maintain_dimen维，重新得到A’矩阵，
+#实现了除噪的效果。
 def make_new_matrix(U, S, V, maintain_dimen):
     m = U.shape[0]
     n = V.shape[0]
@@ -92,26 +95,43 @@ def make_new_matrix(U, S, V, maintain_dimen):
     A_new = np.dot(np.dot(U_new, S_new), V_new)
     return A_new
 
+#从文件中读取中文标题
 titles = []
 with open('Chinese_titles_romance.txt', encoding='utf-8') as title_file:
     for line in title_file:
         titles.append(line.strip())
 titles_num = len(titles)
 
+#构建LSA模型
 mylsa = LSA(stopwords, ignorechars)
 for t in titles:
     mylsa.parse(t)
-
 mylsa.build()
 A = mylsa.getA()
 mylsa.TFIDF()
+
+#查看重构前的矩阵
+print('*****************\nThe naive A matrix:')
+print(A)
+
+#执行SVD分解
 mylsa.SVD()
 U = mylsa.getU()
 S = mylsa.getS()
 V = mylsa.getV()
-w_dict = mylsa.wdict
-d_count = mylsa.dcount
-key_words = mylsa.get_keys()
 
-maintain_dimen = 3
+#查看词频统计
+print("*****************\nWord_dictionary:")
+w_dict = mylsa.get_wdict()
+print(w_dict)
+
+#查看key_words
+print("*****************\nKey words:")
+key_words = mylsa.get_keys()
+print(key_words)
+
+#重构A矩阵，保留前2维度
+maintain_dimen = 2
 A_new = make_new_matrix(U, S, V, maintain_dimen)
+print('*****************\nThe new A matrix:')
+print(A_new)
