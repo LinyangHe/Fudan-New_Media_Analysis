@@ -18,6 +18,7 @@ class LSA(object):
         self.ignorechars = ignorechars
         self.wdict = {}
         self.dcount = 0
+        self.new_dimen = 0
 
     def parse(self, doc):
         words = [i for i in jieba.cut_for_search(doc,HMM=True)]
@@ -34,6 +35,7 @@ class LSA(object):
 
     def build(self):
         self.keys = [k for k in self.wdict.keys() if len(self.wdict[k]) > 1]
+        self.new_dimen = len(self.keys)
         self.keys.sort()
         self.A = zeros([len(self.keys), self.dcount])
         for i, k in enumerate(self.keys):
@@ -64,6 +66,8 @@ class LSA(object):
     def printV(self):
         print (self.Vt)
         return self.Vt
+    def get_new_dimen(self):
+        return self.new_dimen
 
 
 titles = []
@@ -85,3 +89,8 @@ S = mylsa.printS()
 V = mylsa.printV()
 w_dict = mylsa.wdict
 d_count = mylsa.dcount
+new_dimen = mylsa.get_new_dimen()
+S_dig = zeros((new_dimen,new_dimen))
+for i in range(new_dimen):
+    S_dig[i][i] = S[i]
+A_new = U*S*V
