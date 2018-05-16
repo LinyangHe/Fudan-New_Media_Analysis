@@ -5,7 +5,6 @@ import numpy as np
 import sqlite3
 import jieba
 
-
 def load_database(db):
     conn = sqlite3.connect(db)
     cur = conn.cursor()
