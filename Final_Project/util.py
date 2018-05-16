@@ -13,6 +13,12 @@ def load_database(db):
     news = pd.read_sql_query("select * from instant_news;", conn)
     return news
 
-news = load_database(
-    'C:/Users/Leon/OneDrive/DataScience/10_New Media/Project/Data/opinion.db')
+def load_news():
+	news_1 = load_database(
+	    'C:/Users/Leon/OneDrive/DataScience/10_New Media/Project/Data/opinion.db')
+	news_2 = load_database(
+	    'C:/Users/Leon/OneDrive/DataScience/10_New Media/Project/Data/opinion2.db')
+	news = pd.concat([news_1, news_2])
+	return news
+news = load_news()
 news_head = news.head()
