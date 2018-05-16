@@ -4,6 +4,7 @@ import json
 import numpy as np
 import sqlite3
 import jieba
+import sklearn
 
 def load_database(db):
     conn = sqlite3.connect(db)
@@ -22,3 +23,6 @@ def load_news():
 	return news
 news = load_news()
 news_head = news.head()
+print(news_head)
+
+for 
