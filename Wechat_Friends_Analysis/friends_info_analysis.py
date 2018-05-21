@@ -31,7 +31,6 @@ def sex_analysis(friends):
             other += 1
     return male, female, other
 
-
 def getFriendsData():
     NickName = get_var("NickName")
     Sex = get_var('Sex')
@@ -41,7 +40,6 @@ def getFriendsData():
     data = {'NickName': NickName, 'Sex': Sex, 'Province': Province,
             'City': City, 'Signature': Signature}
     return data
-
 
 def getSignatureText():
     siglist = []
