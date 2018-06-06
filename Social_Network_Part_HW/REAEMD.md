@@ -8,3 +8,13 @@
 - 利⽤用LSA、LDA等主题模型并结合KNN、K-Means等分/聚类算法将这些⽤用户进⾏行分组
 - 对每组⽤用户进⾏行群体画像. 可基于TF-IDF等标签权重计算⽅方法为每组⽤用户选出最具代表性的标
 签集合
+
+## Model
+- Global Prediction
+- Global Prediction without "Stop Labels"
+- Global Prediction using TF-IDF
+- Global Prediction using TF-IDF without "Stop Labels"
+- LSA topic model Prediction
+- LSA topic model Prediction without "Stop Labels"
+- LSA topic model Prediction using TF-IDF
+- LSA topic model Prediction using TF-IDF without "Stop Labels"
