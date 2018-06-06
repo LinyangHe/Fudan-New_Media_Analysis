@@ -234,8 +234,7 @@ Stop-Labels
 \end_layout
 
 \begin_layout Standard
-我们的实验中，提到了一个停用标签的概念。考虑到许多如同，“音乐”、“电影”这样的标签，并不具有十分显著的标签信息。我们在进行实验的时候可以将其剔除。具体操作中，
-我们讲那些超过3000个人标注的标签剔除。
+我们的实验中，提到了一个停用标签的概念。考虑到许多如同，“音乐”、“电影”这样的标签，并不具有十分显著的标签信息。我们在进行实验的时候可以将其剔除。
 \end_layout
 
 \begin_layout Section
@@ -243,24 +242,8 @@ Stop-Labels
 \end_layout
 
 \begin_layout Standard
-整个工作流如图所示：
-\end_layout
-
-\begin_layout Standard
-\align center
-\begin_inset Graphics
-	filename pasted1.png
-	scale 80
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-我们导入数据之后发现，有些weights高达五位数，有些却又是小于0.1的weights，我们猜测不同用户之间的weights差距如此之大，是考虑了他们的社交关系
-中影响力的重要性。但是，我们在给用户的兴趣爱好分组的时候，他的社交影响力并不是关键因素，因此，我们对这些weights做了一个归一化，以保证在对用户的标签来做分
-类的时候的统一。
+我们导入数据之后发现，有些weights高达五位数，有些却又是小于0.1的weighs，我们猜测不同用户之间的weights差距如此之大，是考虑了他们的社交关系中
+的重要性。但是，我们在给用户分组的时候，某
 \end_layout
 
 \end_body

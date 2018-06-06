@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as pn
+import numpy as np
 
 
 def load_data():
@@ -17,11 +17,9 @@ def load_data():
 			j += 1
 	return tag_lists, tag_scores
 
-tag_lists, tag_scores = load_data()
-user_num = len(tag_lists)
-
 
 def create_label_matrix(tag_lists, N, M = 999999):
+	user_num = len(tag_lists)
 	matrix_naive = {}
 	for i in range(user_num):
 		for j in range(20):
@@ -39,6 +37,7 @@ def create_label_matrix(tag_lists, N, M = 999999):
 
 
 def create_user_matrix(label_matrix, tag_lists, tag_scores):
+	user_num = len(tag_lists)
 	label_indices = {}
 	index = 0
 	for i in label_matrix:
@@ -55,17 +54,20 @@ def create_user_matrix(label_matrix, tag_lists, tag_scores):
 				pass
 	return user_matrix
 
-# label_matrix = create_label_matrix(tag_lists, 10)
-# label_num = len(label_matrix)
+def get_tag_scores_norm(tag_scores):
+	tag_scores_norm = pd.DataFrame(columns=[i for i in range(20)])
+	for i in range(8767):
+		temp_sum = sum(tag_scores.iloc[i])
+		tag_scores_norm.loc[i] = tag_scores.iloc[i]/temp_sum
+	return tag_scores_norm
 
-# user_matrix = create_user_matrix(label_matrix, tag_lists, tag_scores)
+tag_lists, tag_scores = load_data()
 
-# user_df = pd.DataFrame(data = user_matrix, columns = [i for i in label_matrix])
+tag_scores = get_tag_scores_norm(tag_scores)
 
+label_matrix = create_label_matrix(tag_lists, 10, M=3000)
+label_num = len(label_matrix)
 
-label_matrix_stop = create_label_matrix(tag_lists, 10, M=3000)
-label_num = len(label_matrix_stop)
+user_matrix = create_user_matrix(label_matrix, tag_lists, tag_scores)
 
-user_matrix_stop = create_user_matrix(label_matrix_stop, tag_lists, tag_scores)
-
-user_df_stop = pd.DataFrame(data = user_matrix_stop, columns = [i for i in label_matrix_stop])
+user_df = pd.DataFrame(data = user_matrix, columns = [i for i in label_matrix])
