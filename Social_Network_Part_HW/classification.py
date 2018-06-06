@@ -20,11 +20,6 @@ def global_KMeans(K, user_matrix):
     prediction_personas = kmModel.predict(user_matrix)
     return prediction_personas
 
-def global_KNN(K, user_matrix):
-    knnModel = KNN(n_neighbors=K)
-    knnModel.fit(user_matrix)
-    indices = knnModel.kneighbors(user_matrix,return_distance=False)
-    return indices
 
 def get_personas_count(prediction_personas):
     prediction_counts = {}
@@ -49,16 +44,16 @@ def matrix_process():
                 user_matrix_new[i][j] = 0.0
     return user_matrix_new
 
-# #Model 1 - KMeans without PCA dimensionality reduction(LSA)
-# prediction_personas = global_KMeans(20, user_matrix_new)
-# personas_count = get_personas_count(prediction_personas)
+#Model 1 - KMeans without PCA dimensionality reduction(LSA)
+prediction_personas = global_KMeans(20, user_matrix_new)
+personas_count = get_personas_count(prediction_personas)
 
-# #Model 2 - KMeans with PCA dimensionality reduction(LSA)
-# data_pca = PCA(n_components=50).fit_transform(user_matrix_new)
-# prediction_personas_pca = global_KMeans(20, data_pca)
-# personas_count_pca = get_personas_count(prediction_personas_pca)
+#Model 2 - KMeans with PCA dimensionality reduction(LSA)
+data_pca = PCA(n_components=50).fit_transform(user_matrix_new)
+prediction_personas_pca = global_KMeans(20, data_pca)
+personas_count_pca = get_personas_count(prediction_personas_pca)
 
-#Model 3 - KNN without PCA dimensionality reduction(LSA)
-indices = global_KNN(50, user_matrix_new)
+
+#Compute the most influential label TF-IDF
 
 
