@@ -257,10 +257,149 @@ Stop-Labels
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Enumerate
 我们导入数据之后发现，有些weights高达五位数，有些却又是小于0.1的weights，我们猜测不同用户之间的weights差距如此之大，是考虑了他们的社交关系
 中影响力的重要性。但是，我们在给用户的兴趣爱好分组的时候，他的社交影响力并不是关键因素，因此，我们对这些weights做了一个归一化，以保证在对用户的标签来做分
 类的时候的统一。
+\end_layout
+
+\begin_layout Enumerate
+我们把少于10个用户标注的标签剔除，可以认为这些是噪声标签。
+\end_layout
+
+\begin_layout Enumerate
+接着，我们利用PCA将用户矩阵降维到50。这里也相当于是利用了LSA的方法。
+\end_layout
+
+\begin_layout Enumerate
+最后我们利用KMeans做分类。
+\end_layout
+
+\begin_layout Section
+结果
+\end_layout
+
+\begin_layout Standard
+我们以分6个类别为例，最后可以发现，如果按照单纯BoW模型，我们用每一组频率最高的5个标签如图，得到如图6个组的用户画像：
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pasted2.png
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pasted3.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pasted4.png
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pasted5.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pasted6.png
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pasted7.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+我们可以猜测：第一类是喜欢运动的年轻男生，第二类是年轻女生，第三类是明星艺人，第四类试一些喜欢读书、热心公益的中年人，第五类是一些喜爱美食与旅游的媒体人，第六类
+则是基督教徒。
+\end_layout
+
+\begin_layout Standard
+如果我们采用TF-IDF，我们的得到的这六组相应的用户画像则是如图：
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pasted8.png
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pasted9.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pasted10.png
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pasted11.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pasted12.png
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pasted13.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+对比只用词袋模型，我们利用TF-IDF模型更有特定性。第一类，我们在第一种方法中猜测是年轻男生，这里中学得到了应证。第二类，喜欢网购与减肥，也符合我们猜测的年轻
+女生的用户。第三类的戏子等也确实暗示可能是艺人。第四类，喜欢关注自然、民主等，也符合上面的中年人预测。第五第六基本与BoW模型一致。
+\end_layout
+
+\begin_layout Section
+讨论
+\end_layout
+
+\begin_layout Standard
+就我们的实验结果而言，似乎TF-IDF对用户画像描述的反而不如简单的词袋模型直观。我们猜测我们在实验部分中，仅仅删除了少于10个用户标注的标签，其实还是没有很好
+的去除一些噪声标签。在后续的工作中，我们可以调整这个阈值，来观测TF-IDF方法是否会对用户画像描述的更加清晰。
 \end_layout
 
 \end_body
