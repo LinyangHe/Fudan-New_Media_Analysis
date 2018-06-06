@@ -23,11 +23,13 @@ def global_KMeans(K, user_matrix):
 
 def get_personas_count(prediction_personas):
     prediction_counts = {}
-    for i in prediction_personas:
+    for index, item in enumerate(prediction_personas):
         try:
-            prediction_counts[i] += 1
+            # prediction_counts[i] += 1
+            prediction_counts[item].append(index)
         except:
-            prediction_counts[i] = 1
+            prediction_counts[item] = []
+            prediction_counts[item].append(index)
     return prediction_counts
 
 # user_matrix_train, user_matrix_test = split_data()
@@ -44,16 +46,31 @@ def matrix_process():
                 user_matrix_new[i][j] = 0.0
     return user_matrix_new
 
-#Model 1 - KMeans without PCA dimensionality reduction(LSA)
-prediction_personas = global_KMeans(20, user_matrix_new)
-personas_count = get_personas_count(prediction_personas)
+# #Model 1 - KMeans without PCA dimensionality reduction(LSA)
+# prediction_personas = global_KMeans(20, user_matrix_new)
+# personas_count = get_personas_count(prediction_personas)
 
-#Model 2 - KMeans with PCA dimensionality reduction(LSA)
-data_pca = PCA(n_components=50).fit_transform(user_matrix_new)
-prediction_personas_pca = global_KMeans(20, data_pca)
-personas_count_pca = get_personas_count(prediction_personas_pca)
-
+# #Model 2 - KMeans with PCA dimensionality reduction(LSA)
+# K = 20
+# data_pca = PCA(n_components=50).fit_transform(user_matrix_new)
+# prediction_personas_pca = global_KMeans(K, data_pca)
+# personas_count_pca = get_personas_count(prediction_personas_pca)
 
 #Compute the most influential label TF-IDF
+def get_words_lists():
+    words_lists = []
+    for user_lists in personas_count_pca:
+        words_list = {}
+        for user_index in personas_count_pca[user_lists]:
+            for i in range(20):
+                try:
+                    words_list[tag_lists.iloc[user_index][i]] += 1
+                except:
+                    words_list[tag_lists.iloc[user_index][i]] = 1
+        words_lists.append(words_list)
+    return words_lists
+words_lists = get_words_lists()
+
+                 
 
 

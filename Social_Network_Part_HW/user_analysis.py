@@ -33,7 +33,7 @@ def create_label_matrix(tag_lists, N, M = 999999):
 	N = 10
 	matrix_processed = {}
 	for i in matrix_naive:
-		if matrix_naive[i] >= N:
+		if matrix_naive[i] >= N and matrix_naive[i] <= M:
 			matrix_processed[i] = matrix_naive[i]
 	return matrix_processed
 
@@ -55,9 +55,17 @@ def create_user_matrix(label_matrix, tag_lists, tag_scores):
 				pass
 	return user_matrix
 
-label_matrix = create_label_matrix(tag_lists, tag_scores, 10)
-label_num = len(label_matrix)
+# label_matrix = create_label_matrix(tag_lists, 10)
+# label_num = len(label_matrix)
 
-user_matrix = create_user_matrix(label_matrix, tag_lists, tag_scores)
+# user_matrix = create_user_matrix(label_matrix, tag_lists, tag_scores)
 
-user_df = pd.DataFrame(data = user_matrix, columns = [i for i in label_matrix])
+# user_df = pd.DataFrame(data = user_matrix, columns = [i for i in label_matrix])
+
+
+label_matrix_stop = create_label_matrix(tag_lists, 10, M=3000)
+label_num = len(label_matrix_stop)
+
+user_matrix_stop = create_user_matrix(label_matrix_stop, tag_lists, tag_scores)
+
+user_df_stop = pd.DataFrame(data = user_matrix_stop, columns = [i for i in label_matrix_stop])
