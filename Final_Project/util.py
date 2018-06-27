@@ -86,8 +86,6 @@ def get_day_sh_data(day_news_data):
     for i in range(len(day_news_data)):
         pass
 
-
-
 day_news_data = get_day_news_data()
 day_news_vec, new_split = get_day_news_vec(day_news_data)
 
