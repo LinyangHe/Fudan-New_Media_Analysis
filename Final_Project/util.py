@@ -71,6 +71,7 @@ def get_day_news_vec(day_news_data):
         for i in news_split:
             try:
                 doc2vec += word2vec_dic[i]
+                
                 # print(doc2vec)
                 word_num += 1
             except KeyError:

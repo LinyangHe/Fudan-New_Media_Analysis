@@ -6,7 +6,7 @@ def load_database():
 
     conn = pymysql.connect(host='123.56.23.226', port=3306, user='weibospider',
                            passwd='weibospider!@#', db='weibo', use_unicode=True, charset="utf8")
-    weibo_table = pandas.read_sql("select * from weibo.weibo_data limit 1000;", con=conn)
+    weibo_table = pandas.read_sql("select * from weibo.weibo_data limit 10000;", con=conn)
     # users_table = pandas.read_sql("select * from douban.user;", con=conn)
     # return movies_table, users_table
     return weibo_table

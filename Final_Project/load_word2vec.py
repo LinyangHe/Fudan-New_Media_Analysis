@@ -14,8 +14,9 @@ def main():
 				continue
 			line = line.strip().split(' ')
 			word2vec_dic[line[0]] = np.array([float(i) for i in line[1:]])
+	return word2vec_dic
 
 if __name__ == '__main__':
-	main()
+	word2vec_dic = main()
 
 
