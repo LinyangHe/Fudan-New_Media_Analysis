@@ -24,7 +24,7 @@ def load_news():
 	return news
 
 # news = load_news()
-news_head = news.head(10000)
+news_head = news.head(68279)
 
 # day_news_data = pd.DataFrame(columns=['date','news','word2vec','sh_next_day'])
 def get_day_news_data():
@@ -84,10 +84,13 @@ def get_day_news_vec(day_news_data):
 def get_day_sh_data(day_news_data):
     day_sh_data = {}
     sh_data = pd.read_csv('./Data/sh.csv')
-    for i in range(len(day_news_data)):
-        pass
+    for i in day_news_data:
+        for j in range(len(sh_data)):
+            if sh_data.iloc[j]['Date Time'].strip() == i:
+                day_sh_data[i] = sh_data.iloc[j]['Volume']
+    return day_sh_data
 
 day_news_data = get_day_news_data()
 day_news_vec, new_split = get_day_news_vec(day_news_data)
-
+day_sh_data = get_day_sh_data(day_news_data)
 

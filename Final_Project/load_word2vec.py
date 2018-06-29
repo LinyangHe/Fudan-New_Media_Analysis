@@ -18,5 +18,3 @@ def main():
 
 if __name__ == '__main__':
 	word2vec_dic = main()
-
-
